@@ -1,7 +1,9 @@
-const fetchItem = () => {
-  
+const fetchItem = async (id) => {
+  const url = await fetch(`https://api.mercadolibre.com/items/${id}`);
+    const data = await url.json();
+
+      return data;
 };
-console.log(fetchItem());
 
 if (typeof module !== 'undefined') {
   module.exports = {
