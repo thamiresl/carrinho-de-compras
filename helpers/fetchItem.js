@@ -1,6 +1,7 @@
 const fetchItem = () => {
-  // seu código aqui
+  
 };
+console.log(fetchItem());
 
 if (typeof module !== 'undefined') {
   module.exports = {
