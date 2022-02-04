@@ -65,8 +65,8 @@ function eventButtons() {
           name: objeto.title,
           salePrice: objeto.price,
         };
-        const section = document.querySelector('.cart__items');
-        section.appendChild(createCartItemElement(createObj));
+        const sectionOl = document.querySelector('.cart__items');
+        sectionOl.appendChild(createCartItemElement(createObj));
       });
     });
 }
