@@ -1,3 +1,5 @@
+const ol = document.querySelector('.cart__items');
+
 function createProductImageElement(imageSource) {
   const img = document.createElement('img');
   img.className = 'item__image';
@@ -24,12 +26,18 @@ function createProductItemElement({ sku, name, image }) {
   return section;
 }
 
+function saveLocalStorage() {
+  const olList = document.querySelector('.cart__items').innerHTML;
+  saveCartItems(olList);
+}
+
 function getSkuFromProductItem(item) {
   return item.querySelector('span.item__sku').innerText;
 }
 
 function cartItemClickListener(event) {
-  event.target.remove();      
+  event.target.remove(); 
+  saveLocalStorage();     
 }
 
 function createCartItemElement({ sku, name, salePrice }) {
@@ -65,15 +73,26 @@ function eventButtons() {
           name: objeto.title,
           salePrice: objeto.price,
         };
-        const sectionOl = document.querySelector('.cart__items');
-        sectionOl.appendChild(createCartItemElement(createObj));
+        ol.appendChild(createCartItemElement(createObj));
+        saveLocalStorage();
       });
     });
 }
 
-function removeItems(event) {
-  const clearOl = document.querySelector('.cart__items');
-  clearOl.innerHTML = '';
+function getLocalStorage() {
+  const saved = getSavedCartItems();
+
+  if (saved) {
+    ol.innerHTML = saved;
+    ol.forEach((li) => {
+      li.addEventListener('click', cartItemClickListener);
+    });
+  }
+}
+
+function removeItems() {
+  ol.innerHTML = '';
+  saveLocalStorage();
 }
 const buttonRemove = document.querySelector('.empty-cart');
 buttonRemove.addEventListener('click', removeItems);
@@ -81,6 +100,7 @@ buttonRemove.addEventListener('click', removeItems);
 window.onload = async () => {
   await addItemList();
   eventButtons();
+  getLocalStorage();
 };
 
 // Function eventButtons com ajuda do Roberval Filho (monitoria summer)
