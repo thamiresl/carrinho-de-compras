@@ -84,7 +84,7 @@ function getLocalStorage() {
 
   if (saved) {
     ol.innerHTML = saved;
-    ol.forEach((li) => {
+    document.querySelectorAll('.cart__item').forEach((li) => {
       li.addEventListener('click', cartItemClickListener);
     });
   }
