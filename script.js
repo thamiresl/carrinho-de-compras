@@ -70,7 +70,17 @@ function eventButtons() {
       });
     });
 }
+
+function removeItems(event) {
+  const clearOl = document.querySelector('.cart__items');
+  clearOl.innerHTML = '';
+}
+const buttonRemove = document.querySelector('.empty-cart');
+buttonRemove.addEventListener('click', removeItems);
+
 window.onload = async () => {
   await addItemList();
   eventButtons();
 };
+
+// Function eventButtons com ajuda do Roberval Filho (monitoria summer)
