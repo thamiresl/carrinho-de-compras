@@ -97,10 +97,23 @@ function removeItems() {
 const buttonRemove = document.querySelector('.empty-cart');
 buttonRemove.addEventListener('click', removeItems);
 
+function loadingText() {
+  const sectionText = document.createElement('section');
+  sectionText.textContent = 'carregando...';
+  sectionText.className = 'loading';
+  document.querySelector('.items').appendChild(sectionText);
+}
+
+function loadingRemove() {
+  document.querySelector('.loading').remove();
+}
+
 window.onload = async () => {
+  await loadingText();
   await addItemList();
   eventButtons();
   getLocalStorage();
+  loadingRemove();
 };
 
 // Function eventButtons com ajuda do Roberval Filho (monitoria summer)
