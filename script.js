@@ -1,4 +1,35 @@
 const ol = document.querySelector('.cart__items');
+let sumTotal = 0;
+
+function takePrice() {
+  const cart = document.querySelector('.cart');
+  const createParagraph = document.createElement('p');
+  const createSpan = document.createElement('span');
+
+  createParagraph.innerHTML = 'Sub-total: <strong>R$ </strong>';
+  createSpan.className = 'total-price';
+  cart.appendChild(createParagraph);
+  createParagraph.appendChild(createSpan);
+}
+
+function sum() {
+  const totalPrice = document.querySelector('.total-price');
+  let textOl = ol.innerText;
+  let resultSum = 0;
+
+  textOl = textOl.match(/\$[0-9]*.[0-9]*/g); 
+
+  if (textOl === 0 || textOl === null) {
+    totalPrice.innerText = 0;
+  } else {
+    textOl.forEach((price) => {
+      resultSum += +price.slice(1);
+    });
+    sumTotal = resultSum;
+
+    totalPrice.innerText = +sumTotal.toFixed(2);
+  }
+}
 
 function createProductImageElement(imageSource) {
   const img = document.createElement('img');
@@ -37,7 +68,8 @@ function getSkuFromProductItem(item) {
 
 function cartItemClickListener(event) {
   event.target.remove(); 
-  saveLocalStorage();     
+  saveLocalStorage();
+  sum();     
 }
 
 function createCartItemElement({ sku, name, salePrice }) {
@@ -75,6 +107,7 @@ function eventButtons() {
         };
         ol.appendChild(createCartItemElement(createObj));
         saveLocalStorage();
+        sum();
       });
     });
 }
@@ -86,6 +119,7 @@ function getLocalStorage() {
     ol.innerHTML = saved;
     document.querySelectorAll('.cart__item').forEach((li) => {
       li.addEventListener('click', cartItemClickListener);
+      sum();
     });
   }
 }
@@ -93,6 +127,7 @@ function getLocalStorage() {
 function removeItems() {
   ol.innerHTML = '';
   saveLocalStorage();
+  sum();
 }
 const buttonRemove = document.querySelector('.empty-cart');
 buttonRemove.addEventListener('click', removeItems);
@@ -109,11 +144,14 @@ function loadingRemove() {
 }
 
 window.onload = async () => {
-  await loadingText();
+  takePrice();
+  loadingText();
   await addItemList();
   eventButtons();
   getLocalStorage();
   loadingRemove();
+  sum();
 };
 
 // Function eventButtons com ajuda do Roberval Filho (monitoria summer)
+// Function bolinha com ajuda do Erik Lima - Turma 19 A
